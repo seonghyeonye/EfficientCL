@@ -2,10 +2,8 @@ from pathlib import Path
 
 import typer
 from allennlp.common import util as common_util
-# from allennlp.models.archival import load_archive
-from archival.archival import load_archive
-# from allennlp.predictors import Predictor
-from predictor.predictor import Predictor
+from allennlp.models.archival import load_archive
+from allennlp.predictors import Predictor
 
 # Emoji's used in typer.secho calls
 # See: https://github.com/carpedm20/emoji/blob/master/emoji/unicode_codes.py"

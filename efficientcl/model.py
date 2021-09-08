@@ -6,7 +6,6 @@ from allennlp.data import TextFieldTensors, Vocabulary
 from allennlp.data.fields import LabelField
 from allennlp.models.model import Model
 from typing import List
-# from load_model.model import Model
 from allennlp.modules import FeedForward, Seq2VecEncoder, TextFieldEmbedder
 from allennlp.modules.seq2vec_encoders import BagOfEmbeddingsEncoder
 from allennlp.nn import InitializerApplicator
