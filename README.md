@@ -1,15 +1,8 @@
 # Efficient Contrastive Learning via Novel Data Augmentation and Curriculum Learning (EMNLP 2021)
 
 The official code for our paper: [Efficient Contrastive Learning via Novel Data Augmentation and Curriculum Learning] (Accepted at EMNLP 2021 short paper)
+
 The implementation is based on the paper [DeCLUTR: Deep Contrastive Learning for Unsupervised Textual Representations](https://arxiv.org/abs/2006.03659) and code implementation at (https://github.com/JohnGiorgi/DeCLUTR).
-
-## Table of contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Training](#training)
-  - [Evaluating with SentEval](#evaluating-with-senteval)
-- [Citing](#citing)
 
 ## Installation
 
@@ -26,11 +19,6 @@ git clone https://github.com/vano1205/EfficientCL
 cd EfficientCL
 pip install -r requirements.txt
 ```
-
-#### Gotchas
-
-- If you plan on training your own model, you should also install [PyTorch](https://pytorch.org/) with [CUDA](https://developer.nvidia.com/cuda-zone) support by following the instructions for your system [here](https://pytorch.org/get-started/locally/).
-
 ## Usage
 
 ### Preparing a dataset
@@ -70,61 +58,30 @@ To train on more than one GPU, provide a list of CUDA devices in your call to `a
 
 If your GPU supports it, [mixed-precision](https://devblogs.nvidia.com/mixed-precision-training-deep-neural-networks/) will be used automatically during training and inference.
 
+### Exporting a trained model to HuggingFace Transformers
 
-### Evaluating with SentEval
-
-[SentEval](https://github.com/facebookresearch/SentEval) is a library for evaluating the quality of sentence embeddings. We provide a script to evaluate our model against SentEval.
-
-First, clone the SentEval repository and download the transfer task datasets (you only need to do this once)
+We have provided a simple script to export a trained model so that it can be loaded with [Hugging Face Transformers](https://github.com/huggingface/transformers)
 
 ```bash
-git clone https://github.com/facebookresearch/SentEval.git
-cd SentEval/data/downstream/
-./get_transfer_data.bash
-cd ../../../
+python scripts/save_pretrained_hf.py "output" "pretrained"
 ```
 
-> See the [SentEval](https://github.com/facebookresearch/SentEval) repository for full details.
+### Evaluating with GLUE
 
-Then you can run our [script](scripts/run_senteval.py) to evaluate a trained model against SentEval
+[Jiant](https://github.com/nyu-mll/jiant) package is used for evaluation of GLUE benchmark. First, download the specific dataset (CoLA, MNLI, MRPC, QNLI, QQP, RTE, SST, STSB) by the following command:
 
 ```bash
-python scripts/run_senteval.py allennlp "SentEval" "output"
- --output-filepath "output/senteval_results.json" \
- --cuda-device 0  \
- --include-package "declutr"
+cd jiant
+export PYTHONPATH=/path/to/jiant:$PYTHONPATH
+python jiant/scripts/download_data/runscript.py \
+    download \
+    --tasks mrpc \
+    --output_path data
 ```
 
-The results will be saved to `"output/senteval_results.json"`. This can be changed to any path you like.
-
-> Pass the flag `--prototyping-config` to get a proxy of the results while dramatically reducing computation time.
-
-For a list of commands, run
+Evaluate each dataset by loading the exported model from above.
 
 ```bash
-python scripts/run_senteval.py --help
+python jiant/proj/simple/runscript.py run --run_name simple --data_dir data --hf_pretrained_model_name_or_path ../pretrained --tasks mrpc --train_batch_size 16 --num_train_epochs 10  --exp_dir roberta 
 ```
 
-For help with a specific command, e.g. `allennlp`, run
-
-```
-python scripts/run_senteval.py allennlp --help
-```
-
-#### Gotchas
-
-- Evaluating the `"SNLI"` task of SentEval will fail without [this fix](https://github.com/facebookresearch/SentEval/pull/52).
-
-<!-- ## Citing
-
-If you use DeCLUTR in your work, please consider citing our preprint
-
-```
-@article{Giorgi2020DeCLUTRDC,
-  title={DeCLUTR: Deep Contrastive Learning for Unsupervised Textual Representations},
-  author={John M Giorgi and Osvald Nitski and Gary D. Bader and Bo Wang},
-  journal={ArXiv},
-  year={2020},
-  volume={abs/2006.03659}
-}
-``` -->
