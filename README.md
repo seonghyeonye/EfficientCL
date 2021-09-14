@@ -1,6 +1,6 @@
 # Efficient Contrastive Learning via Novel Data Augmentation and Curriculum Learning (EMNLP 2021)
 
-The official code for our paper: [Efficient Contrastive Learning via Novel Data Augmentation and Curriculum Learning] (Accepted at EMNLP 2021 short paper)
+The official code for our paper: [Efficient Contrastive Learning via Novel Data Augmentation and Curriculum Learning](https://arxiv.org/abs/2109.05941) (Accepted at EMNLP 2021 short paper)
 
 The implementation is based on the paper [DeCLUTR: Deep Contrastive Learning for Unsupervised Textual Representations](https://arxiv.org/abs/2006.03659) and code implementation at (https://github.com/JohnGiorgi/DeCLUTR).
 
