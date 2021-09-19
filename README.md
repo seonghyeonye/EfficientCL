@@ -85,3 +85,12 @@ Evaluate each dataset by loading the exported model from above.
 python jiant/proj/simple/runscript.py run --run_name simple --data_dir data --hf_pretrained_model_name_or_path ../pretrained --tasks mrpc --train_batch_size 16 --num_train_epochs 10  --exp_dir roberta 
 ```
 
+### Citing 
+```bibtex
+@article{ye2021efficient,
+  title={Efficient Contrastive Learning via Novel Data Augmentation and Curriculum Learnings},
+  author={Ye, Seonghyeon and Kim, Jiseon and Oh, Alice},
+  journal={arXiv preprint arXiv::2109.05941},
+  year={2021}
+}
+```
